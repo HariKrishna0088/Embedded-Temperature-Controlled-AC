@@ -5,57 +5,57 @@
   <img src="https://img.shields.io/badge/Category-Embedded-green?style=for-the-badge" alt="Embedded"/>
 </p>
 
-# ❄️ Temperature Controlled Air Conditioning System
+# â„ï¸ Temperature Controlled Air Conditioning System
 
 > An Arduino-based automatic temperature control system with hysteresis-based cooling, compressor protection, setpoint adjustment, and multiple operating modes.
 
 ---
 
-## 🔍 Overview
+## ðŸ” Overview
 
 This project implements an **intelligent temperature-based cooling control system** that automatically manages fan and compressor relays based on ambient temperature. It features hysteresis-based control to prevent rapid cycling, compressor protection timers, and three operating modes.
 
 ### Key Highlights
-- 🌡️ **DHT11 Sensing** — Real-time temperature and humidity
-- 🎯 **Adjustable Setpoint** — Potentiometer control (18-32°C)
-- 🔄 **Hysteresis Control** — Prevents relay chattering
-- 🛡️ **Compressor Protection** — 3-minute minimum off-time
-- 🎮 **3 Modes** — Auto / Manual Cool / Off
-- 💾 **EEPROM Persistence** — Remembers last setpoint
-- 📺 **LCD Dashboard** — Live temp, setpoint, and status
-- 🌬️ **Fan Rundown** — Fan continues 30s after compressor stops
+- ðŸŒ¡ï¸ **DHT11 Sensing** â€” Real-time temperature and humidity
+- ðŸŽ¯ **Adjustable Setpoint** â€” Potentiometer control (18-32Â°C)
+- ðŸ”„ **Hysteresis Control** â€” Prevents relay chattering
+- ðŸ›¡ï¸ **Compressor Protection** â€” 3-minute minimum off-time
+- ðŸŽ® **3 Modes** â€” Auto / Manual Cool / Off
+- ðŸ’¾ **EEPROM Persistence** â€” Remembers last setpoint
+- ðŸ“º **LCD Dashboard** â€” Live temp, setpoint, and status
+- ðŸŒ¬ï¸ **Fan Rundown** â€” Fan continues 30s after compressor stops
 
 ---
 
-## 🏗️ Control Flow
+## ðŸ—ï¸ Control Flow
 
 ```
-┌──────────────────────────────────────────────────┐
-│                 AUTO MODE LOGIC                   │
-│                                                    │
-│   Temp > Setpoint + 2°C?                          │
-│        │                                          │
-│    YES ▼               NO                         │
-│   ┌─────────────┐   ┌─────────────┐              │
-│   │ FULL_COOLING │   │ COOLING_OFF │              │
-│   │ Fan + Comp   │   │ Everything  │              │
-│   │ ON           │   │ OFF         │              │
-│   └──────┬──────┘   └─────────────┘              │
-│          │                                        │
-│   Temp < Setpoint - 2°C?                          │
-│          │                                        │
-│      YES ▼                                        │
-│   ┌─────────────┐   ┌─────────────┐              │
-│   │ FAN_RUNDOWN  │──►│ COOLING_OFF │              │
-│   │ Fan ON 30s   │   │             │              │
-│   │ Comp OFF     │   │             │              │
-│   └─────────────┘   └─────────────┘              │
-└──────────────────────────────────────────────────┘
+â”Œâ”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”
+â”‚                 AUTO MODE LOGIC                   â”‚
+â”‚                                                    â”‚
+â”‚   Temp > Setpoint + 2Â°C?                          â”‚
+â”‚        â”‚                                          â”‚
+â”‚    YES â–¼               NO                         â”‚
+â”‚   â”Œâ”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”   â”Œâ”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”              â”‚
+â”‚   â”‚ FULL_COOLING â”‚   â”‚ COOLING_OFF â”‚              â”‚
+â”‚   â”‚ Fan + Comp   â”‚   â”‚ Everything  â”‚              â”‚
+â”‚   â”‚ ON           â”‚   â”‚ OFF         â”‚              â”‚
+â”‚   â””â”€â”€â”€â”€â”€â”€â”¬â”€â”€â”€â”€â”€â”€â”˜   â””â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”˜              â”‚
+â”‚          â”‚                                        â”‚
+â”‚   Temp < Setpoint - 2Â°C?                          â”‚
+â”‚          â”‚                                        â”‚
+â”‚      YES â–¼                                        â”‚
+â”‚   â”Œâ”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”   â”Œâ”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”              â”‚
+â”‚   â”‚ FAN_RUNDOWN  â”‚â”€â”€â–ºâ”‚ COOLING_OFF â”‚              â”‚
+â”‚   â”‚ Fan ON 30s   â”‚   â”‚             â”‚              â”‚
+â”‚   â”‚ Comp OFF     â”‚   â”‚             â”‚              â”‚
+â”‚   â””â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”˜   â””â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”˜              â”‚
+â””â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”˜
 ```
 
 ---
 
-## 🔌 Circuit Connections
+## ðŸ”Œ Circuit Connections
 
 | Component | Arduino Pin | Description |
 |:---------:|:-----------:|:------------|
@@ -70,22 +70,22 @@ This project implements an **intelligent temperature-based cooling control syste
 
 ---
 
-## 📁 File Structure
+## ðŸ“ File Structure
 
 ```
 Embedded-Temperature-Controlled-AC/
-├── src/
-│   └── main.cpp
-├── docs/
-├── platformio.ini
-├── .gitignore
-├── LICENSE
-└── README.md
+â”œâ”€â”€ src/
+â”‚   â””â”€â”€ main.cpp
+â”œâ”€â”€ docs/
+â”œâ”€â”€ platformio.ini
+â”œâ”€â”€ .gitignore
+â”œâ”€â”€ LICENSE
+â””â”€â”€ README.md
 ```
 
 ---
 
-## 🚀 Getting Started
+## ðŸš€ Getting Started
 
 ```bash
 git clone https://github.com/Harikrishna_08/Embedded-Temperature-Controlled-AC.git
@@ -96,13 +96,13 @@ pio device monitor
 
 ---
 
-## 👨‍💻 Author
+## ðŸ‘¨â€ðŸ’» Author
 
-**Daggolu Hari Krishna** — B.Tech ECE | JNTUA College of Engineering, Kalikiri
+**Daggolu Hari Krishna** â€” B.Tech ECE | JNTUA College of Engineering, Kalikiri
 
-[![LinkedIn](https://img.shields.io/badge/LinkedIn-Connect-blue?style=flat-square&logo=linkedin)](https://linkedin.com/in/harikrishnadaggolu)
+[![LinkedIn](https://img.shields.io/badge/LinkedIn-Connect-blue?style=flat-square&logo=linkedin)](https://www.linkedin.com/in/contacthari88/)
 [![GitHub](https://img.shields.io/badge/GitHub-Harikrishna__08-black?style=flat-square&logo=github)](https://github.com/Harikrishna_08)
 
 ---
 
-<p align="center">⭐ Star this repo if you found it useful! ⭐</p>
+<p align="center">â­ Star this repo if you found it useful! â­</p>
